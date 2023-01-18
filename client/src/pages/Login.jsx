@@ -1,18 +1,35 @@
-import { Link } from "react-router-dom";
-import {ToastContainer, toast} from 'react-toastify';
+import {useState} from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+  })
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <div className="w-100 p-4 d-flex justify-content-center">
-      <form>
-        <p class="h4 text-center mb-4">Login</p>
+      <form onSubmit={(event) => handleSubmit(event)}>
+        <p className="h4 text-center mb-4">Login</p>
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="email">Email</label>
           <input 
             type="email" 
             name="email"
             placeholder="email"
-            className="form-control" 
+            className="form-control"
+            onChange={(event) => setValues({...values, [event.target.name]: event.target.value})} 
           />
         </div>
 
@@ -23,6 +40,7 @@ const Login = () => {
             name="password" 
             placeholder="password"
             className="form-control"
+            onChange={(event) => setValues({...values, [event.target.name]: event.target.value})} 
           />
         </div>
 
@@ -31,7 +49,6 @@ const Login = () => {
           Don't have an account ? <Link to="/register"> Register </Link>
         </span>
       </form>
-      <ToastContainer/>
     </div>
   )
 }
