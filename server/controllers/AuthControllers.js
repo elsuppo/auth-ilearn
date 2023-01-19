@@ -60,15 +60,11 @@ module.exports.login = async (req, res, next) => {
     const user = await UserModel.login(email, password);
     const token = createToken(user._id);
 
-    res.cookie('jwt', token, {
-      withCredentials: true,
-      httpOnly: false,
-      maxAge: maxAge * 1000
-    });
-    res.status(200).json({ user: user._id, created: true })
+    res.cookie('jwt', token, {httpOnly: false,maxAge: maxAge * 1000});
+    res.status(200).json({ user: user._id, status: true })
   } catch (error) {
     console.log(error);
     const errors = handleErrors(error);
-    res.json({ errors, created: false });
+    res.json({ errors, status: false });
   }
 };
