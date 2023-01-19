@@ -39,7 +39,7 @@ const Users = () => {
       {!access ? null : (
         <div className="container-md d-flex justify-content-center flex-column" style={{ width: "100%" }}>
           <div className="d-flex justify-content-between align-items-center p-2">
-            <p className="m-0">Table of users</p>
+            <p className="h4 m-0">Table of users</p>
             <button
               className="btn btn-secondary m-0"
               onClick={logOut}
@@ -47,12 +47,24 @@ const Users = () => {
           </div>
 
           <div className="d-flex justify-flex-start align-items-center p-2">
-            <p className="m-0">Toolbars</p>
-
+            <span 
+              id="deleteIcon" 
+              style={{ fontSize: "100%", cursor: "pointer"}}
+            >
+              <i className="fa-sharp fa-solid fa-trash"></i>
+            </span>
+            <span 
+              id="blockIcon" 
+              style={{ fontSize: "100%", cursor: "pointer"}} 
+              className="ms-3"
+            >
+              <i className="fa-solid fa-ban"></i>
+            </span>
           </div>
           <TableUsers />
         </div>
-      )}
+      )
+      }
     </>
 
 
