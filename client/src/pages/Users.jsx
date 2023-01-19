@@ -38,7 +38,7 @@ const Users = () => {
     <>
       {!access ? null : (
         <div className="container-md d-flex justify-content-center flex-column" style={{ width: "100%" }}>
-          <div className="d-flex justify-content-between align-items-center p-3">
+          <div className="d-flex justify-content-between align-items-center p-2">
             <p className="m-0">Table of users</p>
             <button
               className="btn btn-secondary m-0"
@@ -47,11 +47,10 @@ const Users = () => {
           </div>
 
           <div className="d-flex justify-flex-start align-items-center p-2">
-           <p className="m-0">Toolbars</p> 
-            
-            </div>
+            <p className="m-0">Toolbars</p>
 
-          <TableUsers/>
+          </div>
+          <TableUsers />
         </div>
       )}
     </>

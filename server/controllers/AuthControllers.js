@@ -39,8 +39,9 @@ module.exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const dateReg = new Date();
+    const dateLastLogin = new Date();
     const statusUser = 'active';
-    const user = await UserModel.create({ name, email, password, dateReg, statusUser });
+    const user = await UserModel.create({ name, email, password, dateReg, dateLastLogin, statusUser });
     const token = createToken(user._id);
 
     res.cookie('jwt', token, {
@@ -62,8 +63,16 @@ module.exports.login = async (req, res) => {
     const user = await UserModel.login(email, password);
     const token = createToken(user._id);
 
-    res.cookie('jwt', token, {httpOnly: false,maxAge: maxAge * 1000});
+    res.cookie('jwt', token, {httpOnly: false, maxAge: maxAge * 1000});
     res.status(200).json({ user: user._id, status: true })
+
+    UserModel.findOneAndUpdate({_id: user._id}, {dateLastLogin: new Date()}, (error, data) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(`login user: ${data}`);
+      }
+    })
   } catch (error) {
     console.log(error);
     const errors = handleErrors(error);

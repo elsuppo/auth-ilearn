@@ -27,6 +27,7 @@ const TableUsers = () => {
             <th scope="col">name</th>
             <th scope="col">email</th>
             <th scope="col">registration date</th>
+            <th scope="col">last login date</th>
             <th scope="col">status</th>
           </tr>
         </thead>
@@ -53,6 +54,7 @@ const View = (props) => {
         <td>{user.name}</td>
         <td>{user.email}</td>
         <td>{formatDate(user.dateReg)}</td>
+        <td>{formatDate(user.dateLastLogin)}</td>
         <td>{user.statusUser}</td>
       </tr>
     )
