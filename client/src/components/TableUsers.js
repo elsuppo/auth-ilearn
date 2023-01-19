@@ -40,62 +40,62 @@ const TableUsers = () => {
     }
   }
 
+  return (
+    <div className="table-responsive">
+      <table className="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>
+              <input
+                className="form-check-input"
+                role="button"
+                type="checkbox"
+                id="main-check"
+                onClick={onSelectUsers}></input>
+            </th>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">email</th>
+            <th scope="col">registration date</th>
+            <th scope="col">last login date</th>
+            <th scope="col">status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <View users={users} onSelectOneUser={onSelectOneUser} />
+        </tbody>
+      </table>
+    </div >
+  )
+}
+
+const View = (props) => {
+  const { users, onSelectOneUser } = props;
+
+  const formatDate = (date) => {
+    return date.slice(0, 10);
+  }
+
+  return users.map((user, i) => {
     return (
-      <div className="table-responsive">
-        <table className="table table-striped align-middle">
-          <thead>
-            <tr>
-              <th>
-                <input
-                  className="form-check-input"
-                  role="button"
-                  type="checkbox"
-                  id="main-check"
-                  onClick={onSelectUsers}></input>
-              </th>
-              <th scope="col">id</th>
-              <th scope="col">name</th>
-              <th scope="col">email</th>
-              <th scope="col">registration date</th>
-              <th scope="col">last login date</th>
-              <th scope="col">status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <View users={users} onSelectOneUser={onSelectOneUser} />
-          </tbody>
-        </table>
-      </div >
+      <tr key={i}>
+        <td>
+          <input
+            className="form-check-input"
+            role="button"
+            type="checkbox"
+            id={user._id}
+            onClick={onSelectOneUser}></input>
+        </td>
+        <td>{user._id}</td>
+        <td>{user.name}</td>
+        <td>{user.email}</td>
+        <td>{formatDate(user.dateReg)}</td>
+        <td>{formatDate(user.dateLastLogin)}</td>
+        <td>{user.statusUser}</td>
+      </tr>
     )
-  }
+  })
+}
 
-  const View = (props) => {
-    const { users, onSelectOneUser } = props;
-
-    const formatDate = (date) => {
-      return date.slice(0, 10);
-    }
-
-    return users.map((user, i) => {
-      return (
-        <tr key={i}>
-          <td>
-            <input
-              className="form-check-input"
-              role="button"
-              type="checkbox"
-              id={user._id}
-              onClick={onSelectOneUser}></input>
-          </td>
-          <td>{user._id}</td>
-          <td>{user.name}</td>
-          <td>{user.email}</td>
-          <td>{formatDate(user.dateReg)}</td>
-          <td>{formatDate(user.dateLastLogin)}</td>
-          <td>{user.statusUser}</td>
-        </tr>
-      )
-    })
-  }
-
-  export default TableUsers;
+export default TableUsers;
