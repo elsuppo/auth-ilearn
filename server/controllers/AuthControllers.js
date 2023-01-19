@@ -35,10 +35,12 @@ const handleErrors = (error) => {
   }
 }
 
-module.exports.register = async (req, res, next) => {
+module.exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const user = await UserModel.create({ name, email, password });
+    const dateReg = new Date();
+    const statusUser = 'active';
+    const user = await UserModel.create({ name, email, password, dateReg, statusUser });
     const token = createToken(user._id);
 
     res.cookie('jwt', token, {
@@ -46,7 +48,7 @@ module.exports.register = async (req, res, next) => {
       httpOnly: false,
       maxAge: maxAge * 1000
     });
-    res.status(201).json({ user: user._id, created: true })
+    res.status(201).json({ user: user._id, created: true });
   } catch (error) {
     console.log(error);
     const errors = handleErrors(error);
@@ -54,7 +56,7 @@ module.exports.register = async (req, res, next) => {
   }
 };
 
-module.exports.login = async (req, res, next) => {
+module.exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await UserModel.login(email, password);

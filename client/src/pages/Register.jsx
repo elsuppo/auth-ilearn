@@ -47,7 +47,7 @@ const Register = () => {
   
   return (
     <div className="w-100 p-4 d-flex justify-content-center">
-      <form onSubmit={(event) => handleSubmit(event)}>
+      <form autoComplete="off" onSubmit={(event) => handleSubmit(event)}>
         <p className="h4 text-center mb-4">Register account</p>
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="name">Name</label>

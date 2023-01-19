@@ -7,18 +7,19 @@ const Login = () => {
   const [values, setValues] = useState({
     email: '',
     password: '',
-  })
+  });
+
   const [errors, setErrors] = useState({
     email: '',
     password: '',
-  })
+  });
 
   useEffect(() => {
     setErrors({
       email: '',
       password: '',
     }) 
-  }, [values])
+  }, [values]);
 
 
   const handleSubmit = async (event) => {
@@ -40,11 +41,11 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="w-100 p-4 d-flex justify-content-center">
-      <form onSubmit={(event) => handleSubmit(event)}>
+      <form autoComplete="off" onSubmit={(event) => handleSubmit(event)}>
         <p className="h4 text-center mb-4">Login</p>
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="email">Email</label>

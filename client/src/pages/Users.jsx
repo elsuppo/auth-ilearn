@@ -1,21 +1,9 @@
 import { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
-const cols = [
-  { field: 'id', headerName: 'id', width: 50 },
-  { field: 'name', headerName: 'name', width: 100 },
-  { field: 'email', headerName: 'email', width: 100 },
-  { field: 'dateReg', headerName: 'dateReg', width: 150 },
-  { field: 'dateLastLog', headerName: 'dateLastLog', width: 150 },
-  { field: 'status', headerName: 'status', width: 50 },
-];
-
-const rows = [
-  { id: 1, name: 'blank', email: 'blank', dateReg: 'blank data', dateLastLog: 'blank data', status: 'block' }
-]
+import TableUsers from '../components/TableUsers';
 
 const Users = () => {
   const navigate = useNavigate();
@@ -37,7 +25,6 @@ const Users = () => {
       }
       setAccess(true);
     };
-
     verifyUser();
   }, [cookies, navigate, removeCookie])
 
@@ -59,12 +46,12 @@ const Users = () => {
             >Log out</button>
           </div>
 
-          <DataGrid
-            checkboxSelection
-            autoHeight
-            rows={rows}
-            columns={cols}
-          />
+          <div className="d-flex justify-flex-start align-items-center p-2">
+           <p className="m-0">Toolbars</p> 
+            
+            </div>
+
+          <TableUsers/>
         </div>
       )}
     </>
