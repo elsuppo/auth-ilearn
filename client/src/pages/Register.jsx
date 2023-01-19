@@ -37,7 +37,7 @@ const Register = () => {
           const {name, email, password} = data.errors;
           setErrors({name, email, password});
         } else {
-          navigate('/users');
+          navigate('/');
         }
       }
     } catch (error) {

@@ -1,20 +1,44 @@
-import {useState} from 'react';
-import { Link } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
-    name: '',
+    email: '',
+    password: '',
+  })
+  const [errors, setErrors] = useState({
     email: '',
     password: '',
   })
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    setErrors({
+      email: '',
+      password: '',
+    }) 
+  }, [values])
 
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      
+      const {data} = await axios.post('http://localhost:5000/login', {
+        ...values,
+      }, {
+        withCredentials: true
+      });
+      if (data) {
+        if (data.errors) {
+          const {email, password} = data.errors;
+          setErrors({email, password});
+        } else {
+          navigate('/');
+        }
+      }
     } catch (error) {
-      
+      console.log(error);
     }
   }
 
@@ -31,6 +55,7 @@ const Login = () => {
             className="form-control"
             onChange={(event) => setValues({...values, [event.target.name]: event.target.value})} 
           />
+          <span className="text-danger">{errors.email}</span>
         </div>
 
         <div className="form-outline mb-4">
@@ -42,6 +67,7 @@ const Login = () => {
             className="form-control"
             onChange={(event) => setValues({...values, [event.target.name]: event.target.value})} 
           />
+          <span className="text-danger">{errors.password}</span>
         </div>
 
         <button type="submit" className="btn btn-primary btn-block mb-4" style={{ width: "100%" }}>Sign in</button>
