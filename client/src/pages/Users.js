@@ -46,19 +46,19 @@ const Users = () => {
             >Log out</button>
           </div>
 
-          <div className="d-flex justify-flex-start align-items-center p-2">
+          <div className="d-flex justify-content-end align-items-center p-2">
             <span 
-              id="deleteIcon" 
-              style={{ fontSize: "100%", cursor: "pointer"}}
-            >
-              <i className="fa-sharp fa-solid fa-trash"></i>
+              id="deleteIcon"
+              role="button"
+              style={{ fontSize: "100%"}}
+            ><i className="fa-sharp fa-solid fa-trash"></i>
             </span>
             <span 
               id="blockIcon" 
-              style={{ fontSize: "100%", cursor: "pointer"}} 
+              role="button"
+              style={{ fontSize: "100%"}}
               className="ms-3"
-            >
-              <i className="fa-solid fa-ban"></i>
+            ><i className="fa-solid fa-ban"></i>
             </span>
           </div>
           <TableUsers />
@@ -66,8 +66,6 @@ const Users = () => {
       )
       }
     </>
-
-
   )
 }
 
