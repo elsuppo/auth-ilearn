@@ -21,7 +21,6 @@ const Login = () => {
     }) 
   }, [values]);
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -43,6 +42,8 @@ const Login = () => {
     }
   };
 
+  const onChangeValue = (event) => setValues({...values, [event.target.name]: event.target.value});
+
   return (
     <div className="w-100 p-4 d-flex justify-content-center">
       <form autoComplete="off" onSubmit={(event) => handleSubmit(event)}>
@@ -54,7 +55,7 @@ const Login = () => {
             name="email"
             placeholder="email"
             className="form-control"
-            onChange={(event) => setValues({...values, [event.target.name]: event.target.value})} 
+            onChange={onChangeValue} 
           />
           <span className="text-danger">{errors.email}</span>
         </div>
@@ -66,7 +67,7 @@ const Login = () => {
             name="password" 
             placeholder="password"
             className="form-control"
-            onChange={(event) => setValues({...values, [event.target.name]: event.target.value})} 
+            onChange={onChangeValue} 
           />
           <span className="text-danger">{errors.password}</span>
         </div>

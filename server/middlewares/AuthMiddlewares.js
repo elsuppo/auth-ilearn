@@ -3,26 +3,23 @@ const jwt = require('jsonwebtoken');
 
 module.exports.checkUser = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    const token = req.url.slice(9);
     if (token) {
       jwt.verify(token, 'andrew_supo_secret_key', async (error, decodedToken) => {
         if (error) {
-          res.json({ status: false });
-          next();
+          res.status(403).json({ message: 'no access' });
         } else {
           const user = await User.findById(decodedToken.id);
           if (user) {
-            const {id, name, email} = user;
-            res.json({ status: true, id, name, email });
-          } else {
-            res.json({ status: false });
+            console.log('the user is verified');
             next();
+          } else {
+            res.status(403).json({ message: 'no access' });
           }
         }
       });
     } else {
-      res.json({ status: false });
-      next();
+      res.status(403).json({ message: 'no access' });
     }
   } catch (error) {
     console.log(error);

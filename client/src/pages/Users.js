@@ -7,8 +7,9 @@ import TableUsers from '../components/TableUsers';
 
 const Users = () => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
+  const [cookies, setCookie, removeCookie] = useCookies();
   const [access, setAccess] = useState(false);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -16,14 +17,21 @@ const Users = () => {
         setAccess(false);
         navigate('/login');
       } else {
-        const { data } = await axios.post('http://localhost:5000', {}, { withCredentials: true });
-        if (!data.status) {
+        axios.get(
+          'http://localhost:5000/', 
+          {params: {cookie: cookies.jwt}}
+        )
+        .then(res => {
+          setUsers(res.data);
+          setAccess(true);
+        })
+        .catch(e => {
+          console.log(e.response.data.message);
           setAccess(false);
           removeCookie('jwt');
           navigate('/login');
-        }
+        });
       }
-      setAccess(true);
     };
     verifyUser();
   }, [cookies, navigate, removeCookie])
@@ -36,7 +44,7 @@ const Users = () => {
 
   return (
     <>
-      {!access ? null : (
+      {access && users ? (
         <div className="container-md d-flex justify-content-center flex-column" style={{ width: "100%" }}>
           <div className="d-flex justify-content-between align-items-center p-2">
             <p className="h4 m-0">Table of users</p>
@@ -45,25 +53,9 @@ const Users = () => {
               onClick={logOut}
             >Log out</button>
           </div>
-
-          <div className="d-flex justify-content-end align-items-center p-2">
-            <span 
-              id="deleteIcon"
-              role="button"
-              style={{ fontSize: "100%"}}
-            ><i className="fa-sharp fa-solid fa-trash"></i>
-            </span>
-            <span 
-              id="blockIcon" 
-              role="button"
-              style={{ fontSize: "100%"}}
-              className="ms-3"
-            ><i className="fa-solid fa-ban"></i>
-            </span>
-          </div>
-          <TableUsers />
+          <TableUsers users={users}/>
         </div>
-      )
+      ) : null
       }
     </>
   )

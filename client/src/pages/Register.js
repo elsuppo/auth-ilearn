@@ -44,6 +44,8 @@ const Register = () => {
       console.log(error);
     }
   }
+
+  const onChangeValue = (event) => setValues({...values, [event.target.name]: event.target.value});
   
   return (
     <div className="w-100 p-4 d-flex justify-content-center">
@@ -56,7 +58,7 @@ const Register = () => {
             name="name"
             placeholder="your name"
             className="form-control"
-            onChange={(event) => setValues({...values, [event.target.name]: event.target.value})} 
+            onChange={onChangeValue} 
           />
           <span className="text-danger">{errors.name}</span>
         </div>
@@ -68,7 +70,7 @@ const Register = () => {
             name="email"
             placeholder="email"
             className="form-control"
-            onChange={(event) => setValues({...values, [event.target.name]: event.target.value})} 
+            onChange={onChangeValue} 
           />
           <span className="text-danger">{errors.email}</span>
         </div>
@@ -80,7 +82,7 @@ const Register = () => {
             name="password"
             placeholder="password"
             className="form-control"
-            onChange={(event) => setValues({...values, [event.target.name]: event.target.value})}
+            onChange={onChangeValue}
           />
           <span className="text-danger">{errors.password}</span>
         </div>
