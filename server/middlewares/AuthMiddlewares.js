@@ -11,8 +11,12 @@ module.exports.checkUser = async (req, res, next) => {
         } else {
           const user = await User.findById(decodedToken.id);
           if (user) {
-            console.log('the user is verified');
-            next();
+            if (user.statusUser === 'blocked') {
+              res.status(403).json({ message: 'no access' });
+            } else {
+              console.log('the user is verified');
+              next();
+            }
           } else {
             res.status(403).json({ message: 'no access' });
           }
