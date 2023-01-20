@@ -1,14 +1,4 @@
-import axios from 'axios';
-
-const TableUsersTool = ({selectedUsers}) => {
-
-  const deleteUsers = async (users) => {
-    if (users) {
-      await axios.delete('http://localhost:5000/', {params: users}, {withCredentials: true}).then(res => { 
-        console.log(res.data);
-      })  
-    }
-  }
+const TableUsersTool = ({selectedUsers, deleteUsers}) => {
 
   return (
     <div className="d-flex justify-content-end align-items-center p-2">

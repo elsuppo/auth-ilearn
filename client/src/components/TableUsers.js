@@ -1,10 +1,7 @@
-import { useState } from 'react';
-
 import TableUsersBody from './TableUsersBody';
 import TableUsersTool from './TableUsersTool';
 
-const TableUsers = ({users}) => {
-  const [selectUsers, setSelectUsers] = useState([]);
+const TableUsers = ({users, deleteUsers, selectUsers, setSelectUsers}) => {
 
   // select with single checkboxes
   const onSelectOneUser = (event) => {
@@ -30,7 +27,10 @@ const TableUsers = ({users}) => {
 
   return (
     <>
-      <TableUsersTool selectedUsers={selectUsers}/>
+      <TableUsersTool 
+        selectedUsers={selectUsers}
+        deleteUsers={deleteUsers}
+      />
       <div className="table-responsive">
         <table className="table table-striped align-middle">
           <thead>
@@ -52,7 +52,10 @@ const TableUsers = ({users}) => {
             </tr>
           </thead>
           <tbody>
-            <TableUsersBody users={users} onSelectOneUser={onSelectOneUser} />
+            <TableUsersBody 
+              users={users} 
+              onSelectOneUser={onSelectOneUser}
+            />
           </tbody>
         </table>
       </div>

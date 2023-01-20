@@ -11,31 +11,34 @@ const Users = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const [access, setAccess] = useState(false);
   const [users, setUsers] = useState([]);
+  const [selectUsers, setSelectUsers] = useState([]);
 
   useEffect(() => {
-    const verifyUser = async () => {
-      if (!cookies.jwt) {
-        setAccess(false);
-        navigate('/login');
-      } else {
-        axios.get(
-          'http://localhost:5000/', 
-          {params: {cookie: cookies.jwt}}
-        )
-        .then(res => {
-          setUsers(res.data);
-          setAccess(true);
-        })
-        .catch(e => {
-          console.log(e.response.data.message);
-          setAccess(false);
-          removeCookie('jwt');
-          navigate('/login');
-        });
-      }
-    };
     verifyUser();
+    // eslint-disable-next-line
   }, [cookies, navigate, removeCookie])
+
+  const verifyUser = async () => {
+    if (!cookies.jwt) {
+      setAccess(false);
+      navigate('/login');
+    } else {
+      axios.get(
+        'http://localhost:5000/', 
+        {params: {cookie: cookies.jwt}}
+      )
+      .then(res => {
+        setUsers(res.data);
+        setAccess(true);
+      })
+      .catch(e => {
+        console.log(e.response.data.message);
+        setAccess(false);
+        removeCookie('jwt');
+        navigate('/login');
+      });
+    }
+  };
 
   const logOut = () => {
     setAccess(false);
@@ -43,7 +46,16 @@ const Users = () => {
     navigate('/login');
   }
 
-  
+  const deleteUsers = async (users) => {
+    if (users) {
+      await axios.delete('http://localhost:5000/', {params: users}, {withCredentials: true}).then(res => { 
+        setUsers(res.data);
+        setSelectUsers([]);
+        verifyUser();
+        document.querySelectorAll('.form-check-input').forEach(item => item.checked = false);
+      })
+    }
+  }
 
   return (
     <>
@@ -56,7 +68,12 @@ const Users = () => {
               onClick={logOut}
             >Log out</button>
           </div>
-          <TableUsers users={users}/>
+          <TableUsers 
+            users={users} 
+            deleteUsers={deleteUsers} 
+            selectUsers={selectUsers}
+            setSelectUsers={setSelectUsers}
+          />
         </div>
       ) : null
       }
