@@ -1,7 +1,7 @@
 import TableUsersBody from './TableUsersBody';
 import TableUsersTool from './TableUsersTool';
 
-const TableUsers = ({users, deleteUsers, selectUsers, setSelectUsers}) => {
+const TableUsers = ({users, deleteUsers, blockUsers,  selectUsers, setSelectUsers}) => {
 
   // select with single checkboxes
   const onSelectOneUser = (event) => {
@@ -28,8 +28,9 @@ const TableUsers = ({users, deleteUsers, selectUsers, setSelectUsers}) => {
   return (
     <>
       <TableUsersTool 
-        selectedUsers={selectUsers}
+        selectUsers={selectUsers}
         deleteUsers={deleteUsers}
+        blockUsers={blockUsers}
       />
       <div className="table-responsive">
         <table className="table table-striped align-middle">

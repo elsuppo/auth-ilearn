@@ -15,7 +15,6 @@ module.exports.getUsers = async(req, res) => {
 
 module.exports.deleteUsers = async(req, res) => {
   const selectedUsersId = Object.values(req.query);
-  console.log('delete');
   selectedUsersId.forEach(userId => {
     UserModel.findOneAndDelete({_id: userId}, (error, data) => {
         if (error) {
@@ -26,4 +25,28 @@ module.exports.deleteUsers = async(req, res) => {
   })
   const users = await UserModel.find();
   return res.json(users);
+}
+
+const updateStatusUsers = async (selectedUsersId, newStatus, oldStatus) => {
+  await selectedUsersId.forEach(userId => {
+    UserModel.findOneAndUpdate({_id: userId}, {statusUser: newStatus}, {new: true}, (error, data) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(oldStatus === 'active' ? `blocked user:  ${data}` : `unlocked user: ${data}`);
+      }})
+  })
+}
+
+module.exports.blockUsers = async(req, res) => {
+  const selectedUsersId = req.body.users;
+  const action = req.body.action;
+  if (action === 'block') {
+    updateStatusUsers(selectedUsersId, 'blocked', 'active');
+  }
+  if (action === 'unlock') {
+    updateStatusUsers(selectedUsersId, 'active', 'blocked');
+  }
+  const users = await UserModel.find();
+  return await res.json(users);
 }

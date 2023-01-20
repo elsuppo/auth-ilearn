@@ -47,8 +47,19 @@ const Users = () => {
   }
 
   const deleteUsers = async (users) => {
-    if (users) {
+    if (users.length > 0) {
       await axios.delete('http://localhost:5000/', {params: users}, {withCredentials: true}).then(res => { 
+        setUsers(res.data);
+        setSelectUsers([]);
+        verifyUser();
+        document.querySelectorAll('.form-check-input').forEach(item => item.checked = false);
+      })
+    }
+  }
+
+  const blockUsers = async (users, action) => {
+    if (users.length > 0) {
+      await axios.put('http://localhost:5000/', {users, action}).then(res => { 
         setUsers(res.data);
         setSelectUsers([]);
         verifyUser();
@@ -70,7 +81,8 @@ const Users = () => {
           </div>
           <TableUsers 
             users={users} 
-            deleteUsers={deleteUsers} 
+            deleteUsers={deleteUsers}
+            blockUsers={blockUsers}
             selectUsers={selectUsers}
             setSelectUsers={setSelectUsers}
           />
