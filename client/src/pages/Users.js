@@ -7,6 +7,7 @@ import TableUsers from '../components/TableUsers';
 
 const Users = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line
   const [cookies, setCookie, removeCookie] = useCookies();
   const [access, setAccess] = useState(false);
   const [users, setUsers] = useState([]);
@@ -41,6 +42,8 @@ const Users = () => {
     removeCookie('jwt');
     navigate('/login');
   }
+
+  
 
   return (
     <>

@@ -12,3 +12,18 @@ module.exports.getUsers = async(req, res) => {
     })
   }
 }
+
+module.exports.deleteUsers = async(req, res) => {
+  const selectedUsersId = Object.values(req.query);
+  console.log('delete');
+  selectedUsersId.forEach(userId => {
+    UserModel.findOneAndDelete({_id: userId}, (error, data) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(`delete user: ${data}`);
+        }})
+  })
+  const users = await UserModel.find();
+  return res.json(users);
+}
