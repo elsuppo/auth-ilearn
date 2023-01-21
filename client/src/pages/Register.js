@@ -29,7 +29,7 @@ const Register = () => {
     event.preventDefault();
     try {
       const { data } = await axios.post(
-        'http://localhost:5000/register', 
+        'https://auth-ilearn-supo.onrender.com/register', 
         {...values}, 
         {withCredentials: true}
       );

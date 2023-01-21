@@ -14,7 +14,7 @@ const Users = () => {
   const update = () => {
     const token = JSON.parse(localStorage.getItem('token'));
     axios.get(
-      'http://localhost:5000/',
+      'https://auth-ilearn-supo.onrender.com',
       { headers: { 'Authorization': token } }
     ).then(res => {
       setUsers(res.data);
@@ -43,7 +43,7 @@ const Users = () => {
   const deleteUsers = async (users) => {
     if (users.length > 0) {
       await axios.delete(
-        'http://localhost:5000/',
+        'https://auth-ilearn-supo.onrender.com',
         { params: users },
         { withCredentials: true }
       ).then(res => {
@@ -58,7 +58,7 @@ const Users = () => {
   const blockUsers = async (users, action) => {
     if (users.length > 0) {
       await axios.put(
-        'http://localhost:5000/',
+        'https://auth-ilearn-supo.onrender.com',
         { users, action }
       ).then(res => {
         setUsers(res.data);
