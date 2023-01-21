@@ -5,8 +5,8 @@ const userSchema = new mongoose.Schema({
   name: {type: String, required: [true, 'name is required']},
   email: {type: String, required: [true, 'email is required'], unique: true},
   password: {type: String, required: [true, 'password is required']},
-  dateReg: Date,
-  dateLastLogin: Date,
+  dateReg: {type: Date, default: new Date()},
+  dateLastLogin: {type: Date, default: new Date()},
   statusUser: {type: String, default: 'active'}
 })
 
