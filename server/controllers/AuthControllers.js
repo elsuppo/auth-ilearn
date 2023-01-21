@@ -9,24 +9,30 @@ const createToken = (id) => {
   });
 };
 
+const updateLastLoginDate = (id) => {
+  UserModel.findOneAndUpdate({_id: id}, {dateLastLogin: new Date()}, (error, data) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(`login user: ${data}`);
+    }
+  })
+}
+
 const handleErrors = (error) => {
   let errors = { name: '', email: '', password: '' };
-
   if (error.message === 'incorrect email') {
     errors.email = 'that email is not register';
     return errors;
   }
-
   if (error.message === 'incorrect password') {
     errors.password = 'that password is incorrect';
     return errors;
   }
-
   if (error.code === 11000) {
     errors.email = 'user with this email already exists';
     return errors;
   }
-
   if (error.message.includes('Users validation failed')) {
     Object.values(error.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
@@ -40,8 +46,10 @@ module.exports.register = async (req, res) => {
     const { name, email, password } = req.body;
     const user = await UserModel.create({ name, email, password });
     const token = createToken(user._id);
-    res.cookie('jwt', token, {withCredentials: true, httpOnly: false, maxAge: maxAge * 1000});
-    res.status(201).json({ user: user._id, created: true });
+
+    // res.cookie('jwt', token, {withCredentials: true, httpOnly: false, maxAge: maxAge * 1000});
+
+    res.status(201).json({ user: user._id, created: true, token });
   } catch (error) {
     console.log(error);
     const errors = handleErrors(error);
@@ -54,17 +62,9 @@ module.exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await UserModel.login(email, password);
     const token = createToken(user._id);
-
-    res.cookie('jwt', token, {httpOnly: false, maxAge: maxAge * 1000});
-    res.status(200).json({ user: user._id, status: true })
-
-    UserModel.findOneAndUpdate({_id: user._id}, {dateLastLogin: new Date()}, (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(`login user: ${data}`);
-      }
-    })
+    // res.cookie('jwt', token, {httpOnly: false, maxAge: maxAge * 1000});
+    updateLastLoginDate(user._id);
+    res.status(200).json({ user: user._id, status: true, token})
   } catch (error) {
     console.log(error);
     const errors = handleErrors(error);
