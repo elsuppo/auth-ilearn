@@ -25,16 +25,17 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post('http://localhost:5000/login', {
-        ...values,
-      }, {
-        withCredentials: true
-      });
+      const { data } = await axios.post(
+        'http://localhost:5000/login', 
+        {...values,}, 
+        {withCredentials: true}
+      );
       if (data) {
         if (data.errors) {
           const { email, password } = data.errors;
           setErrors({ email, password });
         } else {
+          localStorage.setItem('token', JSON.stringify(data.token))
           navigate('/');
         }
       }

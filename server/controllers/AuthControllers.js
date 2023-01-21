@@ -46,9 +46,6 @@ module.exports.register = async (req, res) => {
     const { name, email, password } = req.body;
     const user = await UserModel.create({ name, email, password });
     const token = createToken(user._id);
-
-    // res.cookie('jwt', token, {withCredentials: true, httpOnly: false, maxAge: maxAge * 1000});
-
     res.status(201).json({ user: user._id, created: true, token });
   } catch (error) {
     console.log(error);
@@ -62,7 +59,6 @@ module.exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await UserModel.login(email, password);
     const token = createToken(user._id);
-    // res.cookie('jwt', token, {httpOnly: false, maxAge: maxAge * 1000});
     updateLastLoginDate(user._id);
     res.status(200).json({ user: user._id, status: true, token})
   } catch (error) {

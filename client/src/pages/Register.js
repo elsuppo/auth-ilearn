@@ -28,16 +28,17 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post('http://localhost:5000/register', {
-        ...values,
-      }, {
-        withCredentials: true
-      });
+      const { data } = await axios.post(
+        'http://localhost:5000/register', 
+        {...values}, 
+        {withCredentials: true}
+      );
       if (data) {
         if (data.errors) {
           const { name, email, password } = data.errors;
           setErrors({ name, email, password });
         } else {
+          localStorage.setItem('token', JSON.stringify(data.token))
           navigate('/');
         }
       }
