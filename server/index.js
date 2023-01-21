@@ -1,10 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/AuthRoutes');
 const cookieParcer = require('cookie-parser');
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
@@ -13,7 +14,7 @@ const start = async () => {
     app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));
 
     mongoose.set("strictQuery", true);
-    await mongoose.connect('mongodb+srv://root:227759@cluster0.8apy0lw.mongodb.net/?retryWrites=true&w=majority', {
+    await mongoose.connect(process.env.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     }).then(() => {
@@ -27,7 +28,7 @@ const start = async () => {
 start();
 
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: process.env.CLIENT_URL,
   methods: ['GET', 'POST', 'DELETE', 'PUT'],
   credentials: true,
 }));

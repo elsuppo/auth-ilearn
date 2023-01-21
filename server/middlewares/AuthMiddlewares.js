@@ -5,7 +5,7 @@ module.exports.checkUser = async (req, res, next) => {
   try {
     const token = req.url.slice(9);
     if (token) {
-      jwt.verify(token, 'andrew_supo_secret_key', async (error, decodedToken) => {
+      jwt.verify(token, process.env.JWT_ACCESS_SECRET, async (error, decodedToken) => {
         if (error) {
           res.status(403).json({ message: 'no access' });
         } else {
